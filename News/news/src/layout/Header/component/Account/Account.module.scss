@@ -1,0 +1,77 @@
+.account-wrapper{
+    width:auto;
+    position: relative;
+}
+.account{
+    width:100%;
+    height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    border-radius:10px;
+    border:solid 1px rgb(215 215 217);
+    text-align: center;
+    cursor: pointer;
+    padding: 0 10px;
+
+    span{
+        padding:0 3px;
+    }
+}
+
+.icon-user{
+    color:rgb(152, 152, 158);
+}
+
+.account-title{
+    font-weight:300;
+    line-height:100%;
+}
+
+.login-in_register{
+    position:absolute;
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    margin-top:5px;
+    border:solid 1px rgb(231, 231, 238);
+    padding:5px 5px;
+    border-radius: 5px;
+    background-color: white;
+    z-index: 999;
+
+    button{
+        font-size:15px;
+        padding:10px 0;
+        border-radius: 5px;
+
+        &:hover {
+            background-color:var(--primary-color);
+            color: white;
+        }
+    }
+
+    button:first-child{
+        margin-bottom: 10px;
+    }
+
+
+}
+
+.avatar{
+    width: 30px;
+    height: 30px;
+    padding-right: 5px;
+    border-radius: 50%;
+    overflow: hidden;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+
+
+

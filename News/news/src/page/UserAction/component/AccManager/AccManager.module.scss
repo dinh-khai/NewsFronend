@@ -1,0 +1,65 @@
+.wrapper{
+    width:400px;
+}
+
+.form-register{
+    width:100%;
+    text-align:center;
+}
+
+.input-item{
+    padding:10px 0;
+    width:100%;
+
+}
+
+.input-value{
+    width:100%;
+    border: 1px solid #ced4da;
+    height:40px;
+    font-size: 18px;   
+    border-radius: 5px;  
+    padding: 5px 10px;  
+    color: var(--text-color);
+}
+
+.btn-login{
+    text-align: center;
+    margin-top:20px;
+
+    button{     
+        font-size:18px;
+        color: white;
+        padding:5px;   
+        border-radius: 5px;
+        background-color: var(--primary-color);
+    }
+}
+
+.err{
+    color: red;
+    margin-top:5px;
+    display: inline-block;
+    font-style: italic;
+}
+
+.change-password{
+    input{
+    width:100%;
+    border: 1px solid #ced4da;
+    height:40px;
+    font-size: 18px;   
+    border-radius: 5px;  
+    padding: 5px 10px;  
+    color: var(--text-color);
+    margin-top:10px;
+    }
+}
+
+.btn{
+    font-size:15px;
+    background-color: var(--primary-color);
+    color: white;
+    padding:10px;
+    border-radius:10px;
+}

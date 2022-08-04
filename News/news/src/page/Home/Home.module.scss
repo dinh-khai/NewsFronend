@@ -1,0 +1,84 @@
+.home {
+    margin-top: 40px;
+}
+
+.small-news {
+    width: 100%;
+    height: 100%;
+}
+
+.news__new-title {
+    border-bottom: 3px solid var(--primary-color);
+    margin-bottom: 10px;
+    padding: 0 12px;
+    p {
+        display: inline-block;
+        padding: 0 5px;
+        margin: 5px 0;
+        font-weight: 500;
+    }
+}
+
+.icon-title {
+    display: inline-block;
+    font-size: 10px;
+}
+
+.news__new {
+    margin-top: 40px;
+}
+
+.news__new-item {
+    margin-top: 20px;
+}
+
+.topics {
+    margin-top: 20px;
+}
+
+// .video__most-viewed {
+//     margin-top: 40px;
+// }
+
+// .video {
+//     margin-left: -6px;
+// }
+
+.news-world{
+    width: 100%;
+    margin-top: 40px;
+}
+
+.news-world-content {
+    width: 100%;
+}
+
+.world{
+    width: 100%;
+    height:300px;
+}
+
+.news-politics{
+    margin-top:40px;
+}
+
+.healthy,.sport_technology{
+    margin-top:40px;
+}
+
+.healthy-content{
+    // display:flex;    
+    width:100%;
+    overflow: hidden;
+    // margin:0 -10px;
+}
+
+.test{
+    width: 100%;
+    // border:solid 1px ;
+    
+}
+
+.heal{
+    padding-left: 10px;
+}

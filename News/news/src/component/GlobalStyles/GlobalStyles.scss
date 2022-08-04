@@ -1,0 +1,96 @@
+@import 'normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap');
+
+
+:root {
+    --primary-color: #4db2ec;
+    --white-color:#fff;
+    --black-color:#000;
+    --text-color:#333;
+    --border-color:rgb(236, 228, 228);
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+*{
+    box-sizing: border-box;
+    // [text-decoration]:none;
+}
+
+input,button{
+    outline:none;
+    border:none;
+}
+
+a[href]{
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+li{
+    list-style-type: none;
+}
+
+.grid{
+    width:1100px;
+    max-width: 100%;
+    margin:0 auto;
+    height:100%;   
+}
+
+.grid__row{ 
+    display:flex;
+    flex-wrap: wrap;
+    margin: 0 -12px;
+}
+
+.grid__col-2{
+    width:16.6667%;
+    padding:0 12px;
+}
+
+.grid__col-4{
+    width:33.3333%;
+    padding:0 12px;
+}
+
+.grid__col-6{
+    width:50%;
+    padding:0 12px;
+}
+
+.grid__col-8{
+    width:66.6667%;
+    padding:0 12px;
+}
+
+.grid__col-8-2{
+    width:33.3333%;
+    padding:0 12px;
+}
+
+.grid__col-7{
+    width: 58.3333%;
+    padding:0 12px;
+}
+
+.grid__col-5{
+    width: 41.6667%;
+    padding:0 12px;
+}
+
+.grid__col-3{
+    width: 25%;
+    padding:0 12px;
+}
+
+.grid__col-12{
+    width: 100%;
+    padding:0 12px;
+}
+
+// .slick-initialized .slick-slide {
+//     margin:0 10px;
+// }

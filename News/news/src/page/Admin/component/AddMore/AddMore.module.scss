@@ -1,0 +1,45 @@
+.wrapper{
+    width:100%;
+    padding:0 30px;
+    margin-top:20px;
+}
+.input-item{
+    display:flex;
+    flex-direction:column;
+    margin-top:20px;
+
+    textarea{
+        border:solid 1px rgb(189, 180, 180);
+        
+        &:focus{
+            border:1px solid;
+        }
+    }
+
+    label{
+        margin-bottom:5px;
+    }
+
+}
+
+.remove{
+    font-size:12px;
+    background-color:red;
+    color:white;
+    padding:5px;
+    margin-top:5px;
+}
+
+.btn-add{
+    margin-top:20px;
+    font-size:15px;
+    padding:10px;
+    border-radius:5px;
+    background-color:var(--primary-color);
+    color: white;
+    
+    &:hover {
+        opacity:0.7;
+    }
+    
+}
