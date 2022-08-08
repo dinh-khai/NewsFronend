@@ -1,10 +1,9 @@
 import styles from './SideBar.module.scss';
 import className from 'classnames/bind';
-import Title from '~/page/Home/component/Title';
+import Title from '~/component/Title';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-
 import NewsFlex from '~/component/NewsFlex';
 import axios from 'axios';
 import { useEffect, useState } from 'react';

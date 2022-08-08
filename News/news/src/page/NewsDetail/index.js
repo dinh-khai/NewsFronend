@@ -1,6 +1,6 @@
 import styles from './NewsDetail.module.scss';
 import className from 'classnames/bind';
-import Title from '../Home/component/Title';
+import Title from '~/component/Title';
 import Comment from './component/Comment';
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';

@@ -1,10 +1,9 @@
 import styles from './Home.module.scss';
 import classNames from 'classnames/bind';
-import Title from './component/Title';
-// import Title2 from './component/Title2';
+import Title from '~/component/Title';
 import NewsBlock from '~/component/NewsBlock';
 import NewsFlex from '~/component/NewsFlex';
-import NewFirst from '~/page/Home/component/NewFirst';
+import NewFirst from '~/component/NewFirst';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';

@@ -1,6 +1,6 @@
 import styles from './HeadContainer.module.scss';
 import className from 'classnames/bind';
-import NewFirst from '~/page/Home/component/NewFirst';
+import NewFirst from '~/component/NewFirst';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 

@@ -1,6 +1,6 @@
 import styles from './Admin.module.scss';
 import className from 'classnames/bind';
-import Title from '../Home/component/Title';
+import Title from '~/component/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Form from './component/Form';

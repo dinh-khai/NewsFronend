@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-// import { useRef } from 'react';
+import request from '~/untils/request';
 
 const cx = classNames.bind(styles);
 
@@ -18,7 +18,7 @@ function Header() {
     const navigate =useNavigate();
     
     useEffect(() => {
-      axios.get('http://localhost:8080/news/category/all')
+      request.get('news/category/all')
            .then(function(response) {
              setCategory(response.data)
         })

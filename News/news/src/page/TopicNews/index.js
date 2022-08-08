@@ -1,10 +1,8 @@
 import styles from './TopicNews.module.scss';
 import className from 'classnames/bind';
-import imageR from '~/assets/image/ronaldo.jpg';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-
 import NewsFlex from '~/component/NewsFlex';
-import Title from '../Home/component/Title';
+import Title from '~/component/Title';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';

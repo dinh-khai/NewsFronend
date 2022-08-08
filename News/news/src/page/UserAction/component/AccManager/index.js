@@ -3,7 +3,7 @@ import className from 'classnames/bind';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import Title from '~/page/Home/component/Title';
+import Title from '~/component/Title';
 
 const cx = className.bind(styles);
 function AccManager() {
