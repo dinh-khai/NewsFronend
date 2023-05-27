@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSortDown, faSortUp } from '@fortawesome/free-solid-svg-icons';
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
-import request from '~/untils/request';
+import request from '~/untils/request.js';
 
 const cx = classNames.bind(styles);
 
@@ -15,10 +15,9 @@ function Header() {
     const [hide,setHide]=useState(true);
     const [text,setText]=useState('');
     const [categories,setCategory]=useState([]);
-    const navigate =useNavigate();
-    
+    const navigate = useNavigate();
     useEffect(() => {
-      request.get('news/category/all')
+      request.get('categories/')
            .then(function(response) {
              setCategory(response.data)
         })

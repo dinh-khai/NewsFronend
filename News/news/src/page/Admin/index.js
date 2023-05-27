@@ -7,6 +7,7 @@ import Form from './component/Form';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import momment from 'moment';
+import request from '~/untils/request';
 
 const cx= className.bind(styles);
 function Admin() {
@@ -30,7 +31,7 @@ function Admin() {
 
     useEffect(() => {
         if(!loadAll) return;
-        axios.get('http://localhost:8080/news/all')
+        request.get('news/')
         .then(res=>{
             setNews(res.data);
             setLoadAll(false);

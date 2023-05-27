@@ -2,7 +2,10 @@ import styles from './Form.module.scss';
 import className from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import request from '~/untils/request';
 import AddMore from '../AddMore';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const cx = className.bind(styles);
 function Form() {
@@ -25,7 +28,7 @@ function Form() {
     const [action,setAction]=useState(false);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/news/category/all').then((response) => setCates(response.data));
+        request.get('categories/').then((response) => setCates(response.data));
     }, []);
 
     useEffect(() => {
@@ -34,16 +37,18 @@ function Form() {
 
     useEffect(() => {
         if (!send) return;
-        axios
+        request
             .post(
-                'http://localhost:8080/admin/news/save',
+                'news/',
                 {
-                    title: title,
-                    description: description,
-                    file: file,
-                    cateId: cate + 1,
-                    classifyId: classify,
-                    featured: featured == null ? false : featured,
+                     dto : JSON.stringify({
+                        title: title,
+                        description: description,
+                        categoryId: cate + 1,
+                        classifyId: classify,
+                        featured: featured == null ? false : featured,
+                    }),
+                    file: file
                 },
                 {
                     headers: {
@@ -52,6 +57,7 @@ function Form() {
                 },
             )
             .then((res) => {
+                console.log(res);
                 setId(res.data.id);
                 setAction(false)
                 setTitle('');
@@ -90,8 +96,29 @@ function Form() {
     return (
         <div className={cx('wrapper')}>
             <form className={cx('add-form')}    >
+
                 <div className={cx('add')}>
                     <div className={cx('form-primary')}>
+            <div className="App">
+                <h2>Using CKEditor 5 build in React</h2>
+                <CKEditor
+                    editor={ ClassicEditor }
+                    data="<p>Hello from CKEditor 5!</p>"
+                    onReady={ editor => {
+                       
+                    } }
+                    onChange={ ( event, editor ) => {
+                        const data = editor.getData();
+                        setDescription(...data);
+                    } }
+                    onBlur={ ( event, editor ) => {
+                        
+                    } }
+                    onFocus={ ( event, editor ) => {
+                        
+                    } }
+                />
+            </div>
                         <div className={cx('input-item')}>
                             <label>Tiêu đề</label>
                             <input
@@ -104,19 +131,7 @@ function Form() {
                                 className={cx('title')}
                             ></input>
                         </div>
-                        <div className={cx('input-item')}>
-                            <label>Mô tả</label>
-                            <textarea
-                                name="description"
-                                ref={refDescription}
-                                onChange={(e) => setDescription(e.target.value)}
-                                id="description"
-                                rows="4"
-                                cols="50"
-                                type="text"
-                                placeholder="Nhập mô tả"
-                            ></textarea>
-                        </div>
+       
                         <div className={cx('input-item')}>
                             <label>Chọn ảnh</label>
                             <input type="file" onChange={(e) => setFile(e.target.files[0])}></input>
@@ -145,9 +160,6 @@ function Form() {
                             <label>Thuộc tin tức nổi bật</label>
                             <input type="checkbox" onChange={(e) => setFeatured(e.target.checked)} />
                         </div>
-                    </div>
-                    <div className={cx('form-more')}>
-                        <AddMore id={id} action={action}/>
                     </div>
                 </div>
                 <div className={cx('btn-send')}>
