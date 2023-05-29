@@ -69,7 +69,7 @@ function Form() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [send]);
-
+console.log(description);
     const handleSend = () => {
         if (!title.trim()) {
             alert('Vui lòng nhật tiêu đề cho tin tức');
@@ -99,26 +99,6 @@ function Form() {
 
                 <div className={cx('add')}>
                     <div className={cx('form-primary')}>
-            <div className="App">
-                <h2>Using CKEditor 5 build in React</h2>
-                <CKEditor
-                    editor={ ClassicEditor }
-                    data="<p>Hello from CKEditor 5!</p>"
-                    onReady={ editor => {
-                       
-                    } }
-                    onChange={ ( event, editor ) => {
-                        const data = editor.getData();
-                        setDescription(...data);
-                    } }
-                    onBlur={ ( event, editor ) => {
-                        
-                    } }
-                    onFocus={ ( event, editor ) => {
-                        
-                    } }
-                />
-            </div>
                         <div className={cx('input-item')}>
                             <label>Tiêu đề</label>
                             <input
@@ -159,6 +139,25 @@ function Form() {
                         <div className={cx('input-item', 'input-check')}>
                             <label>Thuộc tin tức nổi bật</label>
                             <input type="checkbox" onChange={(e) => setFeatured(e.target.checked)} />
+                        </div>
+                        <div className="input-item">
+                            <CKEditor
+                                editor={ ClassicEditor }
+                                data="<p>Hello from CKEditor 5!</p>"
+                                onReady={ editor => {
+                                
+                                } }
+                                onChange={ ( event, editor ) => {
+                                    const data = editor.getData();
+                                    setDescription(data);
+                                } }
+                                onBlur={ ( event, editor ) => {
+                                    
+                                } }
+                                onFocus={ ( event, editor ) => {
+                                    
+                                } }
+                            />
                         </div>
                     </div>
                 </div>

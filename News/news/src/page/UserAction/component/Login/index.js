@@ -2,6 +2,7 @@ import styles from './Login.module.scss';
 import className from 'classnames/bind';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import request from '~/untils/request';
 import { useNavigate } from 'react-router-dom';
 
 const cx= className.bind(styles);
@@ -41,8 +42,8 @@ function Login() {
 
     useEffect(() => {
         if(userName&&password){
-            axios.post('http://localhost:8080/news/login',{
-                userName:userName,
+            request.post('users/login',{
+                username:userName,
                 password:password,
             },
             {
