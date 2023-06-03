@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
 import NewsFlex from '~/component/NewsFlex';
-import axios from 'axios';
+import request from '~/untils/request';
 import { useEffect, useState } from 'react';
 
 const cx = className.bind(styles);
@@ -14,18 +14,33 @@ function SideBar({ margin }) {
 
     const [focus, setFocus] = useState([]);
     const [mostView, setMostView] = useState([]);
-    const callApi = async (url, setCategory) => {
-        const res = await axios.get(url);
-        return setCategory(res.data);
-    };
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByClassify/${1}`, setFocus);
+        request.get(`categories/1/`,{
+            params : {
+              page : 1,
+              limit : 3,
+              sortType : 'asc'
+            }
+          })
+          .then(function(response) {
+            setFocus(response.data)
+          })
     }, []);
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostViews`, setMostView);
+        request.get(`categories/1/`,{
+            params : {
+              page : 1,
+              limit : 3,
+              sortType : 'asc'
+            }
+          })
+          .then(function(response) {
+            setMostView(response.data)
+          })
     }, []);
+    
 
     return (
         <aside className={wrapper}>
@@ -80,9 +95,9 @@ function SideBar({ margin }) {
             {/* tieu diem */}
             <div className={cx('news__focus')}>
                 <Title text="Tiêu điểm" />
-                {focus.length > 0 && (
+                {focus.list && (
                     <div className={cx('news__focus-content')}>
-                        {focus.map((element, index) => {
+                        {focus.list.map((element, index) => {
                             return (
                                 <NewsFlex
                                     id={element.id}
@@ -103,9 +118,9 @@ function SideBar({ margin }) {
             {/* most views */}
             <div className={cx('news__most_viewd')}>
                 <Title text="Xem nhiều" />
-                {mostView.length > 0 && (
+                {mostView.list && (
                     <div className={cx('news__most_viewd-content')}>
-                        {mostView.map((element, index) => {
+                        {mostView.list.map((element, index) => {
                             return (
                                 <NewsFlex
                                     id={element.id}

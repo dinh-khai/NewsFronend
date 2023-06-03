@@ -4,7 +4,8 @@ import Title from '~/component/Title';
 import Comment from './component/Comment';
 import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import request from '~/untils/request';
+import user from '~/untils/getUserInfo'
 import { useRef } from 'react';
 
 const cx = className.bind(styles);
@@ -16,45 +17,30 @@ function NewsDetail() {
     const inputRef = useRef();
     const [saveComment, setSaveComment] = useState(false);
 
-    // const [reloadCmt,setReLoadCmt] = useState(false)
-
-    const [moreDes, setMoreDes] = useState([]);
-
     useEffect(() => {
-        axios.get(`http://localhost:8080/news/getNews?id=${param.id}`).then((res) => setNews(res.data));
+        request.get(`news/${param.id}`).then((res) => setNews(res.data));
     }, [param.id]);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/news/allCommentOfNews/${param.id}`).then(function (response) {
+        request.get(`news/${param.id}/comments/`,{
+            params : {
+            page : 0,
+            limit : 10
+            }
+        }).then(function (response) {
             setComments(response.data);
             inputRef.current.focus();
         })  
     }, [param.id]);
 
-    // useEffect(() => {
-    //     if(!reloadCmt) return;
-    //     axios.get(`http://localhost:8080/news/allCommentOfNews/${param.id}`)
-    //     .then(response=>{
-    //         setComments(response.data);
-    //         setReLoadCmt(false)
-    //     })    
-    // // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [reloadCmt])
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/news/loadMoreDes?id=${param.id}`).then(function (response) {
-            setMoreDes(response.data);
-        });
-    }, [param.id]);
-
     useEffect(() => {
         if (!saveComment) return;
-        axios.post(
-            'http://localhost:8080/news/comment/saveComment',
+        request.post(
+            'comments/',
             {
                 description: inputComment,
-                userName: JSON.parse(localStorage.getItem('user')).userName,
-                id: news.id,
+                username: user.username,
+                newsId: news.id,
             },
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -86,20 +72,11 @@ function NewsDetail() {
                     <div className={cx('title')}>
                         <h3>{news.title}</h3>
                     </div>
-                    <div className={cx('description')}>
-                        <p>{news.description} </p>
-                    </div>
                     <div className={cx('img')}>
                         <img src={news.image} alt=""></img>
                     </div>
-
-                    {moreDes.map((element, index) => {
-                        return (
-                            <div className={cx('description')} key={index}>
-                                <p>{element.description} </p>
-                            </div>
-                        );
-                    })}
+                    <div className={cx('description')} dangerouslySetInnerHTML = {{__html : news.description}}>
+                    </div>
                 </div>
             )}
 
@@ -116,18 +93,18 @@ function NewsDetail() {
                     ></textarea>
                     <button onClick={handleSaveCmt}>Gửi</button>
                 </div>
-                {comments.length > 0 && (
+                {comments.list && (
                     <React.Fragment>
-                        {comments.map((comment, index) => {
+                        {comments.list.map((comment, index) => {
                             return (
                                 <Comment
-                                    user={comment.userCreator.userName}
-                                    content={comment.content}
+                                    user={comment.user.username}
+                                    content={comment.description}
                                     length={comments.length}
                                     time={comment.createdTime}
                                     id={comment.id}
                                     key={index}
-                                    avatar={comment.userCreator.avatar}
+                                    avatar={comment.user.avatar}
                                 ></Comment>
                             );
                         })}

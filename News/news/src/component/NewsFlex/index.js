@@ -4,10 +4,11 @@ import classNames from 'classnames/bind';
 // import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import request from '~/untils/request';
 import moment from 'moment';
 const cx = classNames.bind(styles);
 
-function NewsFlex({ id, topic, topicLarge, imgLarge, title, description, time, imageNews, comment, titleLarge }) {
+function NewsFlex({ id, topic, topicLarge, imgLarge, title, shortDescription, time, imageNews, comment, titleLarge }) {
     const cssTitle = cx('title', { titleLarge });
     const img = cx('img-wrapper', { imgLarge });
     const topicName = cx('topic-name', { topicLarge });
@@ -33,7 +34,7 @@ function NewsFlex({ id, topic, topicLarge, imgLarge, title, description, time, i
                     </div>
                     {imgLarge != null && (
                         <div className={cx('description')}>
-                            <p>{description}</p>
+                            <p>{shortDescription}</p>
                         </div>
                     )}
                     <div className={cx('time_comment')}>

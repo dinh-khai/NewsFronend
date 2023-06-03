@@ -3,6 +3,7 @@ import className from 'classnames/bind';
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import request from '~/untils/request';
 import { useNavigate } from 'react-router-dom';
 
 const cx= className.bind(styles);
@@ -17,12 +18,14 @@ function Register() {
     }  
     useEffect(()=>{
         if(datas!==null){
-            axios.post(`http://localhost:8080/news/register`
+            request.post('users/'
             ,{
-                userName:datas.userName,
-                fullName:datas.fullName,  
-                password:datas.password,
-                email:datas.email,
+                dto : JSON.stringify({
+                    username:datas.userName,
+                    password:datas.password,
+                    fullName:datas.fullName,  
+                    email:datas.email,
+                }),
                 file:imageD,
             },{
                 headers: {

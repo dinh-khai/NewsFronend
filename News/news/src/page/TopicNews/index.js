@@ -6,46 +6,35 @@ import Title from '~/component/Title';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import axios from 'axios';
+import request from '~/untils/request';
 import { useState } from 'react';
+import user from '~/untils/getUserInfo';
 
 const cx = className.bind(styles);
 function TopicNews() {
-    const param=useParams();
-    const [news,setNews]=useState()
-    const [page,setPage]=useState(1);
-    const [pages,setPages]=useState(0);
+    const param = useParams();
+    const [news,setNews] = useState()
+    const [page,setPage] = useState(0);
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/news/category/page/${param.id}`)
-        .then(function(response) {
-          setPages(response.data)
-     })
-      },[param.id])
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/news/newsByCate/${param.id}/${page-1}`)
-        .then(function(response) {
-          setNews(response.data)
-     })
+      request.get(`categories/${param.id}/news`,{
+        params : {
+          page : page,
+          limit : 3,
+        }
+      })
+      .then(function(response) {
+        setNews(response.data)
+      })
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      },[page])
-
-
-    useEffect(() => {
-        axios.get(`http://localhost:8080/news/newsByCate/${param.id}/${0}`)
-        .then(function(response) {
-          setNews(response.data)
-     })
-      },[param.id])
-
+    },[page])
 
     return (
         <div className={cx('wrapper')}>
             <Title text={param.name} />
             <div>
                 {
-                 news!=null && news.map((element, index) =>{
+                 news!=null && news.list.map((element, index) =>{
                    
                     return(                       
                         <NewsFlex key={index}
@@ -54,9 +43,7 @@ function TopicNews() {
                         topic={element.category.name}
                         topicLarge
                         title={element.title}
-                        description="Trong tran dau vs Totenham anh bay na mot qua phao vao 
-                    luoi cua doi chu nha la ga trong va mang ve ba ban thang cho MU, tuoi 37 ganh team 
-                    dang cmn  cap luon , dit conme anh bay vip pro vai chuong , dang cap 4 qua trung vang."
+                        shortDescription={element.shortDescription}
                         titleLarge
                         imgLarge
                         id={element.id}
@@ -66,17 +53,27 @@ function TopicNews() {
                 }
             </div>
             <ul className={cx('page')}>
-                <li className={cx('page-item')}><FontAwesomeIcon className={cx('icon')} icon={faAngleLeft} /></li>
+                {(news) && <li className={cx('page-item')} onClick={()=>{
+                  if(page < 0) {
+                    setPage(page-1)
+                  }
+                }}><FontAwesomeIcon className={cx('icon')} icon={faAngleLeft} /></li>}
                 {
                 (()=>{
-                    let items=[]
-                    for(let i=1; i<=pages;i++) {
-                      items.push(<li className={cx('page-item',`${page===i?'active':''}`)} onClick={()=>setPage(i)}  key={i}>{i}</li>)
-                    }
+                  let items=[]
+                  if(news !=null) {
+                    for(let i = 0; i < news.totalPages;i++) {
+                        items.push(<li className={cx('page-item',`${page===i?'active':''}`)} onClick={()=>setPage(i)}  key={i}>{i+1}</li>)
+                      }
+                  }
                     return items;
                 })      
                 ()}
-                <li className={cx('page-item')}><FontAwesomeIcon className={cx('icon')} icon={faAngleRight} /></li>
+                <li className={cx('page-item')} onClick={()=>{
+                  if(page < news.totalPages - 1) {
+                    setPage(page+1)
+                  }
+                  }}><FontAwesomeIcon className={cx('icon')} icon={faAngleRight} /></li>
             </ul>
         </div>
     );

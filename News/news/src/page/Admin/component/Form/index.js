@@ -1,9 +1,7 @@
 import styles from './Form.module.scss';
 import className from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import request from '~/untils/request';
-import AddMore from '../AddMore';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -11,6 +9,7 @@ const cx = className.bind(styles);
 function Form() {
     // const {register, handleSubmit,formState:{errors} ,watch}=useForm();
     const [title, setTitle] = useState('');
+    const [shortDescription, setShortDescription] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
     const [cate, setCate] = useState(0);
@@ -32,7 +31,7 @@ function Form() {
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/news/classify/all').then((response) => setClassifies(response.data));
+        request.get('http://localhost:8080/news/classify/all').then((response) => setClassifies(response.data));
     }, []);
 
     useEffect(() => {
@@ -43,6 +42,7 @@ function Form() {
                 {
                      dto : JSON.stringify({
                         title: title,
+                        shortDescription : shortDescription,
                         description: description,
                         categoryId: cate + 1,
                         classifyId: classify,
@@ -69,7 +69,7 @@ function Form() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [send]);
-console.log(description);
+
     const handleSend = () => {
         if (!title.trim()) {
             alert('Vui lòng nhật tiêu đề cho tin tức');
@@ -140,24 +140,41 @@ console.log(description);
                             <label>Thuộc tin tức nổi bật</label>
                             <input type="checkbox" onChange={(e) => setFeatured(e.target.checked)} />
                         </div>
-                        <div className="input-item">
-                            <CKEditor
-                                editor={ ClassicEditor }
-                                data="<p>Hello from CKEditor 5!</p>"
-                                onReady={ editor => {
-                                
-                                } }
-                                onChange={ ( event, editor ) => {
-                                    const data = editor.getData();
-                                    setDescription(data);
-                                } }
-                                onBlur={ ( event, editor ) => {
+
+                        <div className={cx('input-item')}>
+                            <label>Mô tả ngắn</label>
+                            <textarea
+                                name="title"
+                                id="title"
+                                onChange={(e) => setShortDescription(e.target.value)}
+                                type="text"
+                                placeholder="Nhập mô tả ngắn"
+                                maxLength="200"
+                                className={cx('title')}
+                            ></textarea>
+                        </div>
+
+                        <div className={cx('input-item')}>
+                            <label>Mô tả </label>
+                            <div className="item">
+                                <CKEditor
+                                    editor={ ClassicEditor }
+                                    data="<p>Hello from CKEditor 5!</p>"
+                                    onReady={ editor => {
                                     
-                                } }
-                                onFocus={ ( event, editor ) => {
-                                    
-                                } }
-                            />
+                                    } }
+                                    onChange={ ( event, editor ) => {
+                                        const data = editor.getData();
+                                        setDescription(data);
+                                    } }
+                                    onBlur={ ( event, editor ) => {
+                                        
+                                    } }
+                                    onFocus={ ( event, editor ) => {
+                                        
+                                    } }
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

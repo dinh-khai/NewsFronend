@@ -26,11 +26,27 @@ function Home() {
     };
 
     useEffect(() => {
-        callApi('http://localhost:8080/news/new', setMostNews);
+        request.get('news/', {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : "desc",
+            }
+        }).then(function (response) {
+            setMostNews(response.data);
+        })
     }, []);
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByCate/${1}`, setWorld);
+        request.get(`categories/1/news/`, {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : 'desc'
+            }
+        }).then(function (response) {
+            setWorld(response.data.list);
+        });
     }, []);
 
     useEffect(() => {

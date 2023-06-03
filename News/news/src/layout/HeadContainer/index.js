@@ -3,12 +3,18 @@ import className from 'classnames/bind';
 import NewFirst from '~/component/NewFirst';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import request from '~/untils/request';
 
 const cx = className.bind(styles);
 function HeadContainer() {
     const [featured, setFeatured] = useState(null);
     useEffect(() => {
-        axios.get('http://localhost:8080/news/featured').then((res) => setFeatured(res.data));
+        request.get('news/featured/', {
+            params : {
+                page : 0,
+                limit : 4
+            }
+        }).then((res) => setFeatured(res.data));
     }, []);
     return (
         <div className={cx('wrapper')}>

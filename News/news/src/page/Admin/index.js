@@ -33,7 +33,6 @@ function Admin() {
         if(!loadAll) return;
         request.get('news/')
         .then(res=>{
-            console.log(res);
             setNews(res.data);
             setLoadAll(false);
         }

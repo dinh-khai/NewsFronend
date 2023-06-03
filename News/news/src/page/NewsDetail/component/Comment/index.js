@@ -2,6 +2,8 @@ import styles from './Comment.module.scss';
 import className from 'classnames/bind';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
+import request from '~/untils/request';
+import userCreate from '~/untils/getUserInfo';
 import moment from 'moment';
 
 const cx = className.bind(styles);
@@ -17,7 +19,7 @@ function Comment({ user, content, time, avatar, length, id }) {
     const inputRep = useRef();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/news/comment/allReComment/${id}`).then(function (response) {
+        request.get(`comments/${id}/recomments/`).then(function (response) {
             setReComments(response.data);
         });
     }, [id]);
@@ -31,12 +33,12 @@ function Comment({ user, content, time, avatar, length, id }) {
     useEffect(() => {
         if (!saveReComment) return;
 
-        axios.post(
-            'http://localhost:8080/news/comment/saveReComment',
+        request.post(
+            'recomments/',
             {
                 description: inputReComment,
-                userName: JSON.parse(localStorage.getItem('user')).userName,
-                id: id,
+                username: userCreate.username,
+                cmtId: id,
             },
             {
                 headers: { 'Content-Type': 'application/json' },
@@ -50,7 +52,6 @@ function Comment({ user, content, time, avatar, length, id }) {
         })
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [saveReComment]);
-
     const handleSaveReCmt = () => {
         if (!localStorage.getItem('user')) {
             alert('Vui lòng đăng nhập để bình luận');
@@ -97,18 +98,18 @@ function Comment({ user, content, time, avatar, length, id }) {
                         <button onClick={handleSaveReCmt}>Gửi</button>
                     </div>
                     <div>
-                        {reComments.length > 0 && (
+                        {reComments && (
                             <React.Fragment>
                                 {reComments.map((element, index) => {
                                     return (
                                         // <div className={cx('re-comment-wrapper')} key={index}>
                                         <div className={cx('re-comment')} key={index}>
                                             <div className={cx('avatar')}>
-                                                <img src={JSON.parse(localStorage.getItem('user')).avatar} alt=""></img>
+                                                <img src={element.user.avatar} alt=""></img>
                                             </div>
                                             <div className={cx('container')}>
                                                 <div className={cx('name_time')}>
-                                                    <span className={cx('name')}>{element.userCreator.userName}</span>
+                                                    <span className={cx('name')}>{element.user.username}</span>
                                                     <span className={cx('time')}>{moment(element.createdTime).startOf('hour').fromNow()}</span>
                                                 </div>
                                                 <div className={cx('content')}>
