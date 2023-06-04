@@ -2,7 +2,6 @@ import styles from './HeadContainer.module.scss';
 import className from 'classnames/bind';
 import NewFirst from '~/component/NewFirst';
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import request from '~/untils/request';
 
 const cx = className.bind(styles);
@@ -16,9 +15,10 @@ function HeadContainer() {
             }
         }).then((res) => setFeatured(res.data));
     }, []);
+
     return (
         <div className={cx('wrapper')}>
-            {featured && (
+            {featured && featured.length > 0 && (
                 <React.Fragment>
                     <div className={cx('most_news-featured')}>
                         <NewFirst
@@ -35,6 +35,8 @@ function HeadContainer() {
                         />
                     </div>
                     <div className={cx('other_news-featured')}>
+                    {featured.length > 1 && (
+                        <React.Fragment>
                         <div className={cx('second-featured')}>
                             <NewFirst
                                 id={featured[1].id}
@@ -49,6 +51,8 @@ function HeadContainer() {
                                 numberOfCommentsLarge
                             />
                         </div>
+                        </React.Fragment>
+                        )}
                         <div className={cx('other-featured')}>
                             {featured.map((element, index) => {
                                 return (

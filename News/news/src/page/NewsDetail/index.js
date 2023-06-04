@@ -30,7 +30,7 @@ function NewsDetail() {
         }).then(function (response) {
             setComments(response.data);
             inputRef.current.focus();
-        })  
+        })
     }, [param.id]);
 
     useEffect(() => {

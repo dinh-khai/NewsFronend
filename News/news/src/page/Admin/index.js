@@ -2,10 +2,9 @@ import styles from './Admin.module.scss';
 import className from 'classnames/bind';
 import Title from '~/component/Title';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import { faPen, faPlus, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus, faTrashCan, faXmark, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Form from './component/Form';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import momment from 'moment';
 import request from '~/untils/request';
 
@@ -16,28 +15,36 @@ function Admin() {
     const [hideEdit,setHideEdit]=useState(false);
     const [news,setNews] = useState([]);
     const [loadAll,setLoadAll]=useState(true);
+    const [page,setPage] = useState(0);
 
     const [idN,setIdN] = useState();
     
     useEffect(() => {
         if(!idN) return;
-        axios.delete(`http://localhost:8080/admin/news/delete?id=${idN}`
+        request.delete(`news/`
         ,{
-            headers: {'Content-Type':'application/json'}
+            params : {
+                id : idN,
+            }
         }
         )
         .then(res=>{setLoadAll(true)})
     },[idN])
 
     useEffect(() => {
-        if(!loadAll) return;
-        request.get('news/')
+        request.get('news/',{
+            params : {
+                page : page,
+                limit : 12,
+
+            }
+        })
         .then(res=>{
             setNews(res.data);
             setLoadAll(false);
         }
             )
-    },[loadAll])
+    },[page, loadAll])
 
 
     return (     
@@ -61,7 +68,7 @@ function Admin() {
                         <li className={cx('item')}><h3>Sửa/Xóa</h3></li>
                     </ul>
                     {
-                        news.map((element,index) => {
+                       news.list && news.list.map((element,index) => {
                             return(
                                     <ul className={cx('list')} key={index}>
                                         <li className={cx('item')}>{element.id}</li>
@@ -81,8 +88,32 @@ function Admin() {
                                     </ul>
                                 )
                             })
-                    }
-                        
+                    }                      
+                </div>
+                <div>
+                <ul className={cx('page')}>
+                {(news) && <li className={cx('page-item')} onClick={()=>{
+                  if(!news.first) {
+                    setPage(page-1)
+                  }
+                }}><FontAwesomeIcon className={cx('icon')} icon={faAngleLeft} /></li>}
+                {
+                (()=>{
+                  let items=[]
+                  if(news !=null) {
+                    for(let i = 0; i < news.totalPages;i++) {
+                        items.push(<li className={cx('page-item',`${page===i?'active':''}`)} onClick={()=>setPage(i)}  key={i}>{i+1}</li>)
+                      }
+                  }
+                    return items;
+                })      
+                ()}
+                <li className={cx('page-item')} onClick={()=>{
+                  if(!news.last) {
+                    setPage(page+1)
+                  }
+                  }}><FontAwesomeIcon className={cx('icon')} icon={faAngleRight} /></li>
+            </ul>
                 </div>
                 <div className={cx('add')}>
                     <div className={cx('btn-add')}>

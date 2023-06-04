@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import request from '~/untils/request';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import user from '~/untils/getUserInfo'
 
 const cx = className.bind(styles);
 function Form() {
@@ -21,18 +22,20 @@ function Form() {
     const [send, setSend] = useState(false);
 
     const refTitle = useRef();
-    const refDescription = useRef();
-
-    const [id,setId]=useState(null);
     const [action,setAction]=useState(false);
+    const [isCreate, setIsCreate] = useState(true);
 
     useEffect(() => {
         request.get('categories/').then((response) => setCates(response.data));
     }, []);
 
     useEffect(() => {
-        request.get('http://localhost:8080/news/classify/all').then((response) => setClassifies(response.data));
+        request.get('classifications/').then((response) => setClassifies(response.data));
     }, []);
+
+    // useEffect(() => {
+    //     request.get(`news/${id}`).then((response) => setClassifies(response.data));
+    // }, []);
 
     useEffect(() => {
         if (!send) return;
@@ -41,14 +44,15 @@ function Form() {
                 'news/',
                 {
                      dto : JSON.stringify({
-                        title: title,
-                        shortDescription : shortDescription,
-                        description: description,
-                        categoryId: cate + 1,
-                        classifyId: classify,
-                        featured: featured == null ? false : featured,
+                         title: title,
+                         shortDescription : shortDescription,
+                         description: description,
+                         categoryId: cate + 1,
+                         classifyId: classify,
+                         featured: featured == null ? false : featured,
+                         username : user.username,
                     }),
-                    file: file
+                    file: file,
                 },
                 {
                     headers: {
@@ -57,11 +61,14 @@ function Form() {
                 },
             )
             .then((res) => {
-                console.log(res);
-                setId(res.data.id);
-                setAction(false)
-                setTitle('');
-                setDescription('');
+                if(res.status === 201) {
+                    setAction(false)
+                    setTitle('');
+                    setDescription('');
+                    setShortDescription('')
+                } else {
+                    alert(res.data);
+                }
 
             })
             .catch((error) => console.log(error));
@@ -90,7 +97,6 @@ function Form() {
         setAction(true);
         refTitle.current.value = '';
         refTitle.current.focus();
-        refDescription.current.value = '';
     };
 
     return (
@@ -151,6 +157,7 @@ function Form() {
                                 placeholder="Nhập mô tả ngắn"
                                 maxLength="200"
                                 className={cx('title')}
+                                value={shortDescription}
                             ></textarea>
                         </div>
 
@@ -159,7 +166,7 @@ function Form() {
                             <div className="item">
                                 <CKEditor
                                     editor={ ClassicEditor }
-                                    data="<p>Hello from CKEditor 5!</p>"
+                                    data={description}
                                     onReady={ editor => {
                                     
                                     } }

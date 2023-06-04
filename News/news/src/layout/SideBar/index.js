@@ -16,7 +16,7 @@ function SideBar({ margin }) {
     const [mostView, setMostView] = useState([]);
 
     useEffect(() => {
-        request.get(`categories/1/`,{
+        request.get(`classifications/1/news`,{
             params : {
               page : 1,
               limit : 3,
@@ -29,7 +29,7 @@ function SideBar({ margin }) {
     }, []);
 
     useEffect(() => {
-        request.get(`categories/1/`,{
+        request.get(`classifications/2/news`,{
             params : {
               page : 1,
               limit : 3,

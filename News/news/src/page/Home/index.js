@@ -50,18 +50,50 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByCate/${3}`, setPolitics);
+        request.get(`categories/2/news/`, {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : 'desc'
+            }
+        }).then(function (response) {
+            setPolitics(response.data.list);
+        });
     }, []);
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByCate/${2}`, setSport);
+        request.get(`categories/3/news/`, {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : 'desc'
+            }
+        }).then(function (response) {
+            setSport(response.data.list);
+        });
     }, []);
 
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByCate/${2}`, setTechnology);
+        request.get(`categories/3/news/`, {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : 'desc'
+            }
+        }).then(function (response) {
+            setTechnology(response.data.list);
+        });
     }, []);
     useEffect(() => {
-        callApi(`http://localhost:8080/news/mostByCate/${4}`, setHealthy);
+        request.get(`categories/3/news/`, {
+            params : {
+                page : 0,
+                limit : 6,
+                sortType : 'desc'
+            }
+        }).then(function (response) {
+            setHealthy(response.data.list);
+        }); 
     }, []);
 
     const settings = {
@@ -78,29 +110,29 @@ function Home() {
             <div className={cx('news-new')}>
                 <Title text="Tin mới" />
                 <div className="news-new-content">
-                    {mostNews.length > 0 && (
+                    {mostNews > 0 && (
                         <div className="grid__row">
                             <div className="grid__col-6">
                                 <NewsBlock
-                                    id={mostNews[0].id}
-                                    time={mostNews[0].time}
-                                    imageNews={mostNews[0].image}
-                                    topic={mostNews[0].category.name}
-                                    title={mostNews[0].title}
+                                    id={mostNews.list[0].id}
+                                    time={mostNews.list[0].time}
+                                    imageNews={mostNews.list[0].image}
+                                    topic={mostNews.list[0].category.name}
+                                    title={mostNews.list[0].title}
                                     description
                                 />
                                 {mostNews.length > 1 && (
                                     <NewsBlock
-                                        id={mostNews[1].id}
-                                        time={mostNews[1].time}
-                                        imageNews={mostNews[1].image}
-                                        topic={mostNews[1].category.name}
-                                        title={mostNews[1].title}
+                                        id={mostNews.list[1].id}
+                                        time={mostNews.list[1].time}
+                                        imageNews={mostNews.list[1].image}
+                                        topic={mostNews.list[1].category.name}
+                                        title={mostNews.list[1].title}
                                         description
                                     />
                                 )}
                             </div>
-                            {mostNews.length > 2 && (
+                            {mostNews.list.length > 2 && (
                                 <div className="grid__col-6">
                                     {mostNews.map((element, index) => {
                                         return (
