@@ -5,11 +5,10 @@ let token = null;
 if(data) {
     token = data.token;
 }
-
 const request = axios.create({
     baseURL: 'http://localhost:8080/api/',
     headers : {
-        'Authorization' : 'Bearer ' + token,
+        'Authorization' : 'Bearer ' + token.trim(),
     }
 });
 

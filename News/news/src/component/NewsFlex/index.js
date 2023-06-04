@@ -3,7 +3,6 @@ import classNames from 'classnames/bind';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import request from '~/untils/request';
 import moment from 'moment';
 const cx = classNames.bind(styles);
@@ -14,7 +13,7 @@ function NewsFlex({ id, topic, topicLarge, imgLarge, title, shortDescription, ti
     const topicName = cx('topic-name', { topicLarge });
 
     const handleSetView = (id) => {
-        axios.put(`http://localhost:8080/news/updateView?id=${id}`);
+        request.put(`news/views/?id=${id}`);
     };
 
     return (

@@ -34,6 +34,10 @@ function NewsDetail() {
     }, [param.id]);
 
     useEffect(() => {
+        request.put(`news/views/?id=${param.id}`);
+    }, [param.id])
+
+    useEffect(() => {
         if (!saveComment) return;
         request.post(
             'comments/',

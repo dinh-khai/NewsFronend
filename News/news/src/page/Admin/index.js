@@ -5,6 +5,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { faPen, faPlus, faTrashCan, faXmark, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Form from './component/Form';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import momment from 'moment';
 import request from '~/untils/request';
 
@@ -18,6 +19,8 @@ function Admin() {
     const [page,setPage] = useState(0);
 
     const [idN,setIdN] = useState();
+
+    const navigate = useNavigate();
     
     useEffect(() => {
         if(!idN) return;
@@ -72,11 +75,15 @@ function Admin() {
                             return(
                                     <ul className={cx('list')} key={index}>
                                         <li className={cx('item')}>{element.id}</li>
-                                        <li className={cx('item')}><p>{element.title}</p></li>
+                                        <li className={cx('item')} onClick={()=>navigate(`/newsDetail/${element.id}`)}><p>{element.title}</p></li>
                                         <li className={cx('item')}><img src={element.image} alt="" /></li>
                                         <li className={cx('item')}>{momment(element.time).format('DD-MM-yyyy')}</li>
                                         <li className={cx('item')}>
-                                            <button className={cx('btn')} onClick={() =>setHideEdit(true)}>
+                                            <button className={cx('btn')} onClick={() => 
+                                                // setHideEdit(true)
+                                                navigate(`/update/${element.id}`)
+                                                
+                                                }>
                                                 <span>Sửa</span>
                                                 <FontAwesomeIcon icon={faPen}/>
                                             </button>

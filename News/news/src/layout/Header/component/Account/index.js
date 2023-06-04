@@ -77,6 +77,7 @@ function Account() {
                                     setHide(false);
                                     localStorage.removeItem('user');
                                     setShow(false);
+                                    navigate(`/`)
                                 }}
                             >
                                 Đăng xuất

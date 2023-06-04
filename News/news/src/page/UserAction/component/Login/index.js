@@ -54,18 +54,12 @@ function Login() {
             
             )
             .then((response) => {
-                if(response.data===''){
-                    alert('Thông tin tài khoản hoặc mật khẩu không chính xác');
-                    return;
-                }
-                
-                console.log(response);
                 localStorage.setItem('user',JSON.stringify(response.data));
                 navigate('/')
                 
             })
             .catch((err)=>{
-                console.log(err);
+                alert("Thông tin tài khoản hoặc mật khẩu không chính xác!!!");
             })
             
         }

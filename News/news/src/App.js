@@ -11,8 +11,11 @@ import UserAction from './page/UserAction';
 import Admin from './page/Admin';
 import AccManager from './page/UserAction/component/AccManager';
 import SearchResult from '~/page/SearchResult'
+import Update from '~/page/Admin/component/FormEdit'
+import user from '~/untils/getUserInfo'
 
 function App() {
+    console.log(user);
     return (
         <div className="App">
             <Routes>
@@ -71,6 +74,15 @@ function App() {
                     element={
                         <DefautLayout>
                             <Admin />
+                        </DefautLayout>
+                    }
+                ></Route>
+
+                <Route
+                    path="/update/:id"
+                    element={
+                        <DefautLayout>
+                            <Update />
                         </DefautLayout>
                     }
                 ></Route>

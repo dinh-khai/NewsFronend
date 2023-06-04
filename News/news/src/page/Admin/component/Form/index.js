@@ -1,19 +1,20 @@
 import styles from './Form.module.scss';
 import className from 'classnames/bind';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import request from '~/untils/request';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import user from '~/untils/getUserInfo'
 
 const cx = className.bind(styles);
-function Form() {
+function Form({id}) {
     // const {register, handleSubmit,formState:{errors} ,watch}=useForm();
     const [title, setTitle] = useState('');
     const [shortDescription, setShortDescription] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(null);
-    const [cate, setCate] = useState(0);
+    const [cate, setCate] = useState(1);
     const [classify, setClassify] = useState(0);
     const [featured, setFeatured] = useState(false);
 
@@ -23,7 +24,7 @@ function Form() {
 
     const refTitle = useRef();
     const [action,setAction]=useState(false);
-    const [isCreate, setIsCreate] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         request.get('categories/').then((response) => setCates(response.data));
@@ -33,12 +34,60 @@ function Form() {
         request.get('classifications/').then((response) => setClassifies(response.data));
     }, []);
 
-    // useEffect(() => {
-    //     request.get(`news/${id}`).then((response) => setClassifies(response.data));
-    // }, []);
+    useEffect(() => {
+        if(id) {
+            request.get(`news/${id}`)
+                    .then((res) => {
+                        if(res.status === 200) {
+                            const data = res.data;
+                            setTitle(data.title);
+                            setShortDescription(data.shortDescription);
+                            setDescription(data.description);
+                            setCate(data.category.id);
+                            setClassify(data.classify?data.classify:0)
+                            setFeatured(data.featured);
+                        }
+                    });
+        }
+    }, [id]);
 
     useEffect(() => {
         if (!send) return;
+        if (id) {
+            request
+            .put(
+                'news/',
+                {
+                     id : id,
+                     dto : JSON.stringify({
+                         title: title,
+                         shortDescription : shortDescription,
+                         description: description,
+                         categoryId: cate,
+                         classifyId: 0?null:classify,
+                         featured: featured == null ? false : featured,
+                         username : user.username,
+                    }),
+                    file: file,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                },
+            )
+            .then((res) => {
+                if(res.status === 200) {
+                    alert("Update thành công")
+                    navigate("/admin");
+                } else {
+                    alert(res.data);
+                }
+
+            })
+            .catch((error) => console.log(error));
+            return;
+        }
         request
             .post(
                 'news/',
@@ -47,8 +96,8 @@ function Form() {
                          title: title,
                          shortDescription : shortDescription,
                          description: description,
-                         categoryId: cate + 1,
-                         classifyId: classify,
+                         categoryId: cate,
+                         classifyId: 0?null:classify,
                          featured: featured == null ? false : featured,
                          username : user.username,
                     }),
@@ -66,6 +115,7 @@ function Form() {
                     setTitle('');
                     setDescription('');
                     setShortDescription('')
+                    alert("Đăng ký thành công")
                 } else {
                     alert(res.data);
                 }
@@ -110,6 +160,7 @@ function Form() {
                             <input
                                 name="title"
                                 id="title"
+                                value = {title}
                                 ref={refTitle}
                                 onChange={(e) => setTitle(e.target.value)}
                                 type="text"
@@ -124,21 +175,22 @@ function Form() {
                         </div>
                         <div className={cx('input-item')}>
                             <label>Chọn thể loại</label>
-                            <select className={cx('input-select')} onChange={(e) => setCate(e.target.selectedIndex)}>
+                            <select value = {cate} className={cx('input-select')} onChange={(e) => setCate(e.target.value)}>
                                 {cates.map((c, index) => {
-                                    return <option key={index}>{c.name}</option>;
+                                    return <option value={index + 1} key={index + 1}>{c.name}</option>;
                                 })}
                             </select>
                         </div>
                         <div className={cx('input-item')}>
                             <label>Chọn phân loại</label>
                             <select
+                                value={classify}
                                 className={cx('input-select')}
                                 onChange={(e) => setClassify(e.target.selectedIndex)}
                             >
-                                <option>Không thuộc phân loại nào</option>
+                                <option value={0}>Không thuộc phân loại nào</option>
                                 {classifies.map((c, index) => {
-                                    return <option key={index}>{c.name}</option>;
+                                    return <option value={index+1} key={index+1}>{c.name}</option>;
                                 })}
                             </select>
                         </div>

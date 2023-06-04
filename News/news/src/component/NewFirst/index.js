@@ -1,7 +1,7 @@
 import styles from './NewFirst.module.scss';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import request from '~/untils/request';
 import moment from 'moment';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faComment } from '@fortawesome/free-solid-svg-icons';
@@ -31,20 +31,6 @@ function NewFirst({
 
     const time = cx('time');
 
-    // const iconComment = cx('icon-comment', {
-    //     iconCommentSmall,
-    //     iconCommentLarge,
-    // });
-
-    // const numberOfComments = cx('number-comments', {
-    //     numberOfCommentsSmall,
-    //     numberOfCommentsLarge,
-    // });
-
-    const handleSetView = (id) => {
-        axios.put(`http://localhost:8080/news/updateView?id=${id}`);
-    };
-
     return (
         <div className={cx('wrapper')} {...props} style={{ backgroundImage: `url(${image})` }}>
             <div className={cx('info')}>
@@ -52,7 +38,7 @@ function NewFirst({
                 <div className={cx('content')}>
                     <div>
                         <h3 className={title}>
-                            <Link to={`/newsDetail/${id}`} className={cx('title-link')} onClick={() => handleSetView(id)}>
+                            <Link to={`/newsDetail/${id}`} className={cx('title-link')}>
                                 {titleNews}
                             </Link>
                         </h3>

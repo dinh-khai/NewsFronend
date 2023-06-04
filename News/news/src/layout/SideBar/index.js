@@ -18,7 +18,7 @@ function SideBar({ margin }) {
     useEffect(() => {
         request.get(`classifications/1/news`,{
             params : {
-              page : 1,
+              page : 0,
               limit : 3,
               sortType : 'asc'
             }
@@ -29,11 +29,12 @@ function SideBar({ margin }) {
     }, []);
 
     useEffect(() => {
-        request.get(`classifications/2/news`,{
+        request.get(`news/`,{
             params : {
-              page : 1,
+              page : 0,
               limit : 3,
-              sortType : 'asc'
+              sortType : 'desc',
+              sortBy : 'views'
             }
           })
           .then(function(response) {
