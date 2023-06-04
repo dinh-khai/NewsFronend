@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 function Search() {
     const[input,setInput]=useState('');
+    const navigate=useNavigate();
 
     const inputRef=useRef(); 
 
@@ -27,8 +29,8 @@ function Search() {
           <div className={cx('clear-wrapper')} onClick={handeDeleteAll}>
                 <FontAwesomeIcon icon={faCircleXmark} className={cx('clear')} />
             </div>}
-            <button type="button">
-                <FontAwesomeIcon className={cx('search-icon')} icon={faMagnifyingGlass} />
+            <button type="button" onClick={()=>navigate(`/news/search/q=${input}`)}>
+                <FontAwesomeIcon className={cx('search-icon')} icon={faMagnifyingGlass}/>
             </button>
         </div>
     );

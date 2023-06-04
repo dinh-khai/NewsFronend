@@ -20,11 +20,6 @@ function Home() {
     const [technology, setTechnology] = useState([]);
     const [healthy, setHealthy] = useState([]);
 
-    const callApi = async (url, setCategory) => {
-        const res = await axios.get(url);
-        return setCategory(res.data);
-    };
-
     useEffect(() => {
         request.get('news/', {
             params : {
@@ -110,7 +105,7 @@ function Home() {
             <div className={cx('news-new')}>
                 <Title text="Tin mới" />
                 <div className="news-new-content">
-                    {mostNews > 0 && (
+                    {mostNews && mostNews.totalPages > 0 && (
                         <div className="grid__row">
                             <div className="grid__col-6">
                                 <NewsBlock
@@ -134,7 +129,7 @@ function Home() {
                             </div>
                             {mostNews.list.length > 2 && (
                                 <div className="grid__col-6">
-                                    {mostNews.map((element, index) => {
+                                    {mostNews.list.map((element, index) => {
                                         return (
                                             <React.Fragment key={index}>
                                                 {index > 1 && (

@@ -10,6 +10,7 @@ import NewsDetail from './page/NewsDetail';
 import UserAction from './page/UserAction';
 import Admin from './page/Admin';
 import AccManager from './page/UserAction/component/AccManager';
+import SearchResult from '~/page/SearchResult'
 
 function App() {
     return (
@@ -31,6 +32,15 @@ function App() {
                     element={
                         <LayoutTopic>
                             <TopicNews />
+                        </LayoutTopic>
+                    }
+                ></Route>
+                {/* search */}
+                <Route
+                    path="/news/search/q=:q"
+                    element={
+                        <LayoutTopic>
+                            <SearchResult />
                         </LayoutTopic>
                     }
                 ></Route>
