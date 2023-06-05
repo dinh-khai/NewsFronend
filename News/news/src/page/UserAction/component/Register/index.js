@@ -34,17 +34,12 @@ function Register() {
             }
             )
             .then((response)=>{
-                if(response.data==="err"){
-                    alert("Ten dang nhap bi trung")
-                }
-                else{
+                console.log(response.data.msg)
                     alert("Dang ky tai khoan thanh cong")
                     navigate("/userAction/login")
-
-                }
             })
             .catch((error)=>{
-                console.log(error)
+                alert(error.response.data.msg)
             })
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
